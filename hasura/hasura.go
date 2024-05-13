@@ -9,7 +9,7 @@ import (
 )
 
 type Client struct {
-	Client      *http.Client
+	client      *http.Client
 	gQLEndpoint string
 	adminSecret string
 }
@@ -22,7 +22,7 @@ type Payload struct {
 func NewClient(gqlEndpoint string, secret string) *Client {
 	httpClient := &http.Client{}
 	return &Client{
-		Client:      httpClient,
+		client:      httpClient,
 		gQLEndpoint: gqlEndpoint,
 		adminSecret: secret,
 	}
@@ -42,7 +42,7 @@ func (c *Client) Request(p Payload) ([]byte, error) {
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("x-hasura-admin-secret", c.adminSecret)
 
-	res, err := c.Client.Do(req)
+	res, err := c.client.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("error executing request: %w", err)
 	}
